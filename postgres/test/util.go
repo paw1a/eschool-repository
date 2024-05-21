@@ -8,7 +8,6 @@ import (
 	_ "github.com/golang-migrate/migrate/source/file"
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
-	"github.com/paw1a/eschool/pkg/database/postgres"
 	"github.com/testcontainers/testcontainers-go"
 	testpg "github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -17,20 +16,12 @@ import (
 	"time"
 )
 
-var (
-	postgresConfig = postgres.Config{
-		Database: "eschool",
-		User:     "postgres",
-		Password: "password",
-	}
-)
-
 func newPostgresContainer(ctx context.Context) (*testpg.PostgresContainer, error) {
 	container, err := testpg.RunContainer(
 		ctx,
-		testpg.WithDatabase(postgresConfig.Database),
-		testpg.WithUsername(postgresConfig.User),
-		testpg.WithPassword(postgresConfig.Password),
+		testpg.WithDatabase("eschool"),
+		testpg.WithUsername("postgres"),
+		testpg.WithPassword("password"),
 		testcontainers.WithWaitStrategy(
 			wait.ForLog("database system is ready to accept connections").
 				WithOccurrence(2).
@@ -59,7 +50,7 @@ func newPostgresContainer(ctx context.Context) (*testpg.PostgresContainer, error
 		return nil, fmt.Errorf("failed to get db driver from instance: %s", err)
 	}
 
-	mig, err := migrate.NewWithDatabaseInstance(sourceUrl, postgresConfig.Database, driver)
+	mig, err := migrate.NewWithDatabaseInstance(sourceUrl, "eschool", driver)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create migrator driver: %s", err)
 	}

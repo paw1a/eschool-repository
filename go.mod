@@ -9,7 +9,6 @@ require (
 	github.com/jackc/pgconn v1.14.3
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/jmoiron/sqlx v1.4.0
-	github.com/paw1a/eschool v0.0.0-20240516102454-93f4b50e1128
 	github.com/paw1a/eschool-core v0.0.0-20240516124202-db1b1bb8e38d
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.9.0
